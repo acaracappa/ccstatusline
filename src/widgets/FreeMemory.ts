@@ -14,9 +14,12 @@ function formatBytes(bytes: number): string {
     const MB = 1024 ** 2;
     const KB = 1024;
 
-    if (bytes >= GB) return `${(bytes / GB).toFixed(1)}G`;
-    if (bytes >= MB) return `${(bytes / MB).toFixed(0)}M`;
-    if (bytes >= KB) return `${(bytes / KB).toFixed(0)}K`;
+    if (bytes >= GB)
+        return `${(bytes / GB).toFixed(1)}G`;
+    if (bytes >= MB)
+        return `${(bytes / MB).toFixed(0)}M`;
+    if (bytes >= KB)
+        return `${(bytes / KB).toFixed(0)}K`;
     return `${bytes}B`;
 }
 
@@ -27,23 +30,29 @@ function getUsedMemoryMacOS(): number | null {
         const lines = output.split('\n');
 
         // Parse page size from first line: "Mach Virtual Memory Statistics: (page size of 16384 bytes)"
-        const pageSizeMatch = lines[0].match(/page size of (\d+) bytes/);
-        if (!pageSizeMatch) return null;
-        const pageSize = parseInt(pageSizeMatch[1], 10);
+        const firstLine = lines[0];
+        if (!firstLine)
+            return null;
+
+        const pageSizeMatch = /page size of (\d+) bytes/.exec(firstLine);
+        const pageSizeString = pageSizeMatch?.[1];
+        if (!pageSizeString)
+            return null;
+        const pageSize = parseInt(pageSizeString, 10);
 
         // Parse page counts
         let activePages = 0;
         let wiredPages = 0;
 
         for (const line of lines) {
-            const activeMatch = line.match(/Pages active:\s+(\d+)/);
-            if (activeMatch) {
-                activePages = parseInt(activeMatch[1], 10);
-            }
-            const wiredMatch = line.match(/Pages wired down:\s+(\d+)/);
-            if (wiredMatch) {
-                wiredPages = parseInt(wiredMatch[1], 10);
-            }
+            const activeMatch = /Pages active:\s+(\d+)/.exec(line);
+            const activeValue = activeMatch?.[1];
+            if (activeValue)
+                activePages = parseInt(activeValue, 10);
+            const wiredMatch = /Pages wired down:\s+(\d+)/.exec(line);
+            const wiredValue = wiredMatch?.[1];
+            if (wiredValue)
+                wiredPages = parseInt(wiredValue, 10);
         }
 
         return (activePages + wiredPages) * pageSize;
@@ -56,6 +65,7 @@ export class FreeMemoryWidget implements Widget {
     getDefaultColor(): string { return 'cyan'; }
     getDescription(): string { return 'Shows system memory usage (used/total)'; }
     getDisplayName(): string { return 'Memory Usage'; }
+    getCategory(): string { return 'Environment'; }
     getEditorDisplay(item: WidgetItem): WidgetEditorDisplay {
         return { displayText: this.getDisplayName() };
     }
@@ -68,7 +78,7 @@ export class FreeMemoryWidget implements Widget {
         const total = os.totalmem();
         let used: number;
 
-        if (process.platform === 'darwin') {
+        if (os.platform() === 'darwin') {
             // Use htop-style calculation on macOS
             used = getUsedMemoryMacOS() ?? (total - os.freemem());
         } else {

@@ -46,6 +46,19 @@
 
 ## 🆕 Recent Updates
 
+### v2.0.26 - v2.0.28 - Performance, git internals, and workflow improvements
+
+- **⚡ Block timer cache (v2.0.28)** - Cache block timer metrics to reduce JSONL parsing on every render, with per-config hashed cache files and automatic 5-hour block invalidation.
+- **🧱 Git widget command refactor (v2.0.28)** - Refactored git widgets to use shared git command helpers and expanded coverage for failure and edge-case tests.
+- **🪟 Windows UTF-8 piped output fix (v2.0.28)** - Sets the Windows UTF-8 code page for piped status line rendering.
+- **📁 Git Root Dir widget (v2.0.27)** - Added a new Git widget that shows the repository root directory name.
+- **🏷️ Session Name widget (v2.0.26)** - Added a new widget that shows the current Claude Code session name from `/rename`.
+- **🏠 Current Working Directory home abbreviation (v2.0.26)** - Added a `~` abbreviation option for CWD display in both preview and live rendering.
+- **🧠 Context model suffix fix (v2.0.26)** - Context widgets now recognize the `[1m]` suffix across models, not just a single model path.
+- **🧭 Widget picker UX updates (v2.0.26)** - Improved widget discovery/navigation and added clearer, safer clear-line behavior.
+- **⌨️ TUI editor input fix (v2.0.26)** - Prevented shortcut/input leakage into widget editor flows.
+- **📄 Repo docs update (v2.0.26)** - Migrated guidance from `CLAUDE.md` to `AGENTS.md` (with symlink compatibility).
+
 ### v2.0.16 - Add fish style path abbreviation toggle to Current Working Directory widget
 
 ### v2.0.15 - Block Timer calculation fixes
@@ -355,6 +368,7 @@ Once configured, ccstatusline automatically formats your Claude Code status line
 - **Git Worktree** - Shows the name of the current git worktree
 - **Session Clock** - Shows elapsed time since session start (e.g., "2hr 15m")
 - **Session Cost** - Shows total session cost in USD (e.g., "$1.23")
+- **Session Name** - Shows the session name set via `/rename` command in Claude Code
 - **Block Timer** - Shows time elapsed in current 5-hour block or progress bar
 - **Current Working Directory** - Shows current working directory with configurable path segments
 - **Version** - Shows Claude Code version

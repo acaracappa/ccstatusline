@@ -18,15 +18,15 @@ import { FreeMemoryWidget } from '../FreeMemory';
 
 describe('FreeMemoryWidget', () => {
     const widget = new FreeMemoryWidget();
-    let totalmemSpy: ReturnType<typeof vi.spyOn>;
-    let freememSpy: ReturnType<typeof vi.spyOn>;
-    let platformSpy: ReturnType<typeof vi.spyOn>;
-    let execSyncSpy: ReturnType<typeof vi.spyOn>;
+    let totalmemSpy = vi.spyOn(os, 'totalmem');
+    let freememSpy = vi.spyOn(os, 'freemem');
+    let platformSpy = vi.spyOn(os, 'platform');
+    let execSyncSpy = vi.spyOn(childProcess, 'execSync');
 
     beforeEach(() => {
         totalmemSpy = vi.spyOn(os, 'totalmem');
         freememSpy = vi.spyOn(os, 'freemem');
-        platformSpy = vi.spyOn(process, 'platform', 'get');
+        platformSpy = vi.spyOn(os, 'platform');
         execSyncSpy = vi.spyOn(childProcess, 'execSync');
     });
 
