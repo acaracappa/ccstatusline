@@ -46,8 +46,9 @@
 
 ## 🆕 Recent Updates
 
-### v2.0.26 - v2.0.28 - Performance, git internals, and workflow improvements
+### v2.0.26 - v2.0.29 - Performance, git internals, and workflow improvements
 
+- **🧠 Memory Usage widget (v2.0.29)** - Added a new widget that shows current system memory usage (`Mem: used/total`).
 - **⚡ Block timer cache (v2.0.28)** - Cache block timer metrics to reduce JSONL parsing on every render, with per-config hashed cache files and automatic 5-hour block invalidation.
 - **🧱 Git widget command refactor (v2.0.28)** - Refactored git widgets to use shared git command helpers and expanded coverage for failure and edge-case tests.
 - **🪟 Windows UTF-8 piped output fix (v2.0.28)** - Sets the Windows UTF-8 code page for piped status line rendering.
